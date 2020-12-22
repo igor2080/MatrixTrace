@@ -61,12 +61,12 @@ namespace MatrixTrace
                     if (i == j)
                     {
                         Console.ForegroundColor = diagonalColor;
-                        Console.Write("{0:###}\t", _array[i, j].ToString());//conversion to string so that 0 is written
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write($"{_array[i, j].ToString():###}\t");//conversion to string so that 0 is written
+                        Console.ResetColor();
                     }
                     else
                     {
-                        Console.Write("{0:###}\t", _array[i, j].ToString());//conversion to string so that 0 is written
+                        Console.Write($"{_array[i, j].ToString():###}\t");//conversion to string so that 0 is written
                     }
                 }
                 Console.WriteLine();
