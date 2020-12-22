@@ -14,9 +14,8 @@ namespace MatrixTrace
         {
             Console.WriteLine("You have entered invalid input, press 1 to try again, or any other key to exit");
             string input = Console.ReadLine();
-            if (input == "1")
-                return true;
-            else return false;
+
+            return input == "1";
         }
         static void Main()
         {
@@ -35,12 +34,11 @@ namespace MatrixTrace
                     else continue;
                 }
 
-            } while (rows < 1 && columns < 1);
+            } while (rows < 1 || columns < 1);
 
             Matrix matrix = new Matrix(rows, columns);
-
+            Console.WriteLine("The trace sum is: " + matrix.MatrixTraceSum);
             matrix.PrintMatrix(ConsoleColor.Red);
-
             Console.ReadKey();
         }
     }

@@ -7,6 +7,7 @@ namespace MatrixTrace
     public class Matrix
     {
         private readonly byte[,] _array;
+        private readonly int _rows, _columns;
 
         public int MatrixTraceSum { get; }
         public byte[,] GetArray { get { return _array; } }
@@ -18,11 +19,11 @@ namespace MatrixTrace
             if (columns < 0)
                 throw new ArgumentOutOfRangeException(nameof(columns), "columns must be 0 or greater");
 
+            _rows = rows;
+            _columns = columns;
             _array = FillMatrix(rows, columns);
-
             MatrixTraceSum = GetMatrixTraceSum();
         }
-
 
         private byte[,] FillMatrix(int rows, int columns)
         {
@@ -35,57 +36,42 @@ namespace MatrixTrace
                     matrix[i, j] = (byte)new Random().Next(0, 101);
                 }
             }
+
             return matrix;
         }
 
         private int GetMatrixTraceSum()
         {
-            int rows = 0;
-            int columns = 0;
             int diagonalTraceSum = 0;
 
-            while (rows < _array.GetLength(0) && columns < _array.GetLength(1))
+            for (int i = 0; i < Math.Min(_rows, _columns); i++)
             {
-                diagonalTraceSum += _array[rows, columns];
-                rows++;
-                columns++;
+                diagonalTraceSum += _array[i, i];
             }
+
             return diagonalTraceSum;
         }
+
         public void PrintMatrix(ConsoleColor diagonalColor)
         {
-            ConsoleColor oldColor = Console.ForegroundColor;//store what the color was before
-
-            Console.WriteLine("The trace sum is: " + GetMatrixTraceSum());
-
-            for (int i = 0; i < _array.GetLength(0); i++)
+            for (int i = 0; i < _rows; i++)
             {
-                for (int j = 0; j < _array.GetLength(1); j++)
+                for (int j = 0; j < _columns; j++)
                 {
-                    if (i==j)
+                    if (i == j)
                     {
-                        if (j != 0)
-                            Console.Write("\t");//gives everything equal spacing (without a tab at the end)
-
                         Console.ForegroundColor = diagonalColor;
-                        Console.Write("{0:###}", _array[i, j].ToString());//conversion to string so that 0 is written
+                        Console.Write("{0:###}\t", _array[i, j].ToString());//conversion to string so that 0 is written
                         Console.ForegroundColor = ConsoleColor.White;
-
                     }
                     else
                     {
-                        if (j != 0)
-                            Console.Write("\t");//gives everything equal spacing (without a tab at the end)
-
-                        Console.Write("{0:###}", _array[i, j].ToString());//conversion to string so that 0 is written
+                        Console.Write("{0:###}\t", _array[i, j].ToString());//conversion to string so that 0 is written
                     }
-
                 }
                 Console.WriteLine();
-
             }
-            Console.ForegroundColor = oldColor;//restore old color
-
+            Console.ResetColor();
         }
     }
 }
