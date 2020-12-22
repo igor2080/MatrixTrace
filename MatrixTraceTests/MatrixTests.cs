@@ -2,6 +2,7 @@ using MatrixTrace;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MatrixTraceTests
 {
@@ -12,10 +13,11 @@ namespace MatrixTraceTests
         public void MatrixTrace_Diagonal_Number_Sum()
         {
             Matrix input = new Matrix(3, 5);
-            int expectedOutput = input.Array[0,0]+input.Array[1,1]+input.Array[2,2];
+            int expectedOutput = input.GetArray[0,0]+input.GetArray[1,1]+input.GetArray[2,2];
             int actualOutput = input.MatrixTraceSum;
             Assert.AreEqual(expectedOutput, actualOutput);
         }
+
         [TestMethod]
         public void MatrixTrace_Sum_Empty_Matrix()
         {
@@ -40,6 +42,46 @@ namespace MatrixTraceTests
         {
             Matrix input = new Matrix(-5, 15);
 
+        }
+
+        [TestMethod]
+        public void GetUserNumberInput_Invalid_Input()
+        {
+            Program input = new Program();
+            Console.SetIn(new StringReader("asdf"));
+            input.GetUserNumberInput("test", out int actualResult);
+            int expectedResult = 0;
+            Assert.AreEqual(expectedResult, actualResult);
+
+        }
+
+        [TestMethod]
+        public void GetUserNumberInput_Valid_Input()
+        {
+            Program input = new Program();
+            Console.SetIn(new StringReader("15"));
+            input.GetUserNumberInput("test", out int actualResult);
+            int expectedResult = 15;
+            Assert.AreEqual(expectedResult, actualResult);
+
+        }
+
+        [TestMethod]
+        public void PromptTryAgain_Continues()
+        {
+            Program input = new Program();
+            Console.SetIn(new StringReader("1"));            
+            bool actualResult = input.PromptTryAgain();
+            Assert.IsTrue(actualResult);
+        }
+
+        [TestMethod]
+        public void PromptTryAgain_Exits()
+        {
+            Program input = new Program();
+            Console.SetIn(new StringReader("e"));
+            bool actualResult = input.PromptTryAgain();
+            Assert.IsFalse(actualResult);
         }
 
     }

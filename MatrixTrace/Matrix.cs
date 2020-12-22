@@ -6,9 +6,10 @@ namespace MatrixTrace
 {
     public class Matrix
     {
-        public int[,] Array { get; }
-        private Queue<Tuple<int, int>> _diagonalCoordinates;
+        private readonly byte[,] _array;
+
         public int MatrixTraceSum { get; }
+        public byte[,] GetArray { get { return _array; } }
 
         public Matrix(int rows, int columns)
         {
@@ -17,34 +18,35 @@ namespace MatrixTrace
             if (columns < 0)
                 throw new ArgumentOutOfRangeException(nameof(columns), "columns must be 0 or greater");
 
-            this.Array = FillMatrix(rows, columns);
+            _array = FillMatrix(rows, columns);
 
-            MatrixTraceSum = GetMatrixTrace();
+            MatrixTraceSum = GetMatrixTraceSum();
         }
 
-        private int[,] FillMatrix(int rows, int columns)
+
+        private byte[,] FillMatrix(int rows, int columns)
         {
-            int[,] matrix = new int[rows, columns];
+            byte[,] matrix = new byte[rows, columns];
+
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    matrix[i, j] = new Random().Next(0, 101);
+                    matrix[i, j] = (byte)new Random().Next(0, 101);
                 }
             }
             return matrix;
         }
 
-        private int GetMatrixTrace()
+        private int GetMatrixTraceSum()
         {
             int rows = 0;
             int columns = 0;
             int diagonalTraceSum = 0;
-            _diagonalCoordinates = new Queue<Tuple<int, int>>();
-            while (rows < Array.GetLength(0) && columns < Array.GetLength(1))
+
+            while (rows < _array.GetLength(0) && columns < _array.GetLength(1))
             {
-                _diagonalCoordinates.Enqueue(new Tuple<int, int>(rows, columns));
-                diagonalTraceSum += Array[rows, columns];
+                diagonalTraceSum += _array[rows, columns];
                 rows++;
                 columns++;
             }
@@ -53,33 +55,29 @@ namespace MatrixTrace
         public void PrintMatrix(ConsoleColor diagonalColor)
         {
             ConsoleColor oldColor = Console.ForegroundColor;//store what the color was before
-            if (_diagonalCoordinates.Count < 1)//empty matrix
-                return;
-            
-            Queue<Tuple<int, int>> coordinateCopy = new Queue<Tuple<int, int>>(_diagonalCoordinates);
-            Tuple<int, int> currentCoordinate = coordinateCopy.Dequeue();
 
-            for (int i = 0; i < Array.GetLength(0); i++)
+            Console.WriteLine("The trace sum is: " + GetMatrixTraceSum());
+
+            for (int i = 0; i < _array.GetLength(0); i++)
             {
-                for (int j = 0; j < Array.GetLength(1); j++)
+                for (int j = 0; j < _array.GetLength(1); j++)
                 {
-                    if (currentCoordinate.Item1 == i && currentCoordinate.Item2 == j)
+                    if (i==j)
                     {
                         if (j != 0)
                             Console.Write("\t");//gives everything equal spacing (without a tab at the end)
+
                         Console.ForegroundColor = diagonalColor;
-                        Console.Write("{0:###}", Array[i, j].ToString());//conversion to string so that 0 is written
+                        Console.Write("{0:###}", _array[i, j].ToString());//conversion to string so that 0 is written
                         Console.ForegroundColor = ConsoleColor.White;
-                        if (coordinateCopy.Count != 0)
-                            currentCoordinate = coordinateCopy.Dequeue();
-                        else
-                            currentCoordinate = new Tuple<int, int>(-1, -1);//out of diagonal pieces
+
                     }
                     else
                     {
                         if (j != 0)
                             Console.Write("\t");//gives everything equal spacing (without a tab at the end)
-                        Console.Write("{0:###}", Array[i, j].ToString());//conversion to string so that 0 is written
+
+                        Console.Write("{0:###}", _array[i, j].ToString());//conversion to string so that 0 is written
                     }
 
                 }
