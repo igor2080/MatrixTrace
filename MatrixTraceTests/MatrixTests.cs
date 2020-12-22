@@ -1,35 +1,45 @@
+using MatrixTrace;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using static MatrixTrace.Matrix;
 
 namespace MatrixTraceTests
 {
     [TestClass]
     public class MatrixTests
     {
-
         [TestMethod]
         public void MatrixTrace_Diagonal_Number_Sum()
         {
-            Queue<Tuple<int, int>> diagonalCoordinates;
-            int[,] input = new int[3, 5]
-            {
-                {1,2,3,4,5 },
-                {6,7,8,9,10 },
-                {11,12,13,14,15 } };
-            int expectedOutput = 21;
-            int actualOutput = GetMatrixTrace(input, out diagonalCoordinates);
+            Matrix input = new Matrix(3, 5);
+            int expectedOutput = input.Array[0,0]+input.Array[1,1]+input.Array[2,2];
+            int actualOutput = input.MatrixTraceSum;
             Assert.AreEqual(expectedOutput, actualOutput);
+        }
+        [TestMethod]
+        public void MatrixTrace_Sum_Empty_Matrix()
+        {
+            Matrix input = new Matrix(0, 0);
+            int expectedOutput = 0;
+            int actualOutput = input.MatrixTraceSum;
+            Assert.AreEqual(expectedOutput, actualOutput);
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException), "The matrix has at least one side that is smaller than 1")]
-        public void MatrixTrace_Empty_matrix()
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "columns must be 0 or greater")]
+        public void Matrix_Invalid_Columns()
         {
-            Queue<Tuple<int, int>> diagonalCoordinates;
-            int[,] input = new int[0, 0];
-            GetMatrixTrace(input, out diagonalCoordinates);
+            Matrix input = new Matrix(35, -15);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), "rows must be 0 or greater")]
+        public void Matrix_Invalid_Rows()
+        {
+            Matrix input = new Matrix(-5, 15);
+
         }
 
     }
