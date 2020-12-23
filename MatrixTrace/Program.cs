@@ -5,6 +5,7 @@ namespace MatrixTrace
 {
     public class Program
     {
+        const string ContinueKey = "1";
         public int GetUserNumberInput(string text)
         {
             Console.Write(text + " ");
@@ -31,7 +32,7 @@ namespace MatrixTrace
         public bool PromptTryAgain()
         {
             Console.WriteLine("Would you like to input a new matrix? Type 1 to restart or anything else to exit: ");
-            return Console.ReadLine() == "1";
+            return Console.ReadLine() == ContinueKey;
         }
 
         static void Main()
