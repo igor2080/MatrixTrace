@@ -13,7 +13,7 @@ namespace MatrixTraceTests
         public void MatrixTrace_Diagonal_Number_Sum()
         {
             Matrix input = new Matrix(3, 5);
-            int expectedOutput = input.GetArray[0,0]+input.GetArray[1,1]+input.GetArray[2,2];
+            int expectedOutput = input.GetArray[0, 0] + input.GetArray[1, 1] + input.GetArray[2, 2];
             int actualOutput = input.MatrixTraceSum;
             Assert.AreEqual(expectedOutput, actualOutput);
         }
@@ -49,7 +49,7 @@ namespace MatrixTraceTests
         {
             Program input = new Program();
             Console.SetIn(new StringReader("asdf"));
-            input.GetUserNumberInput("test", out int actualResult);
+            int actualResult=input.GetUserNumberInput("test");
             int expectedResult = 0;
             Assert.AreEqual(expectedResult, actualResult);
 
@@ -60,7 +60,7 @@ namespace MatrixTraceTests
         {
             Program input = new Program();
             Console.SetIn(new StringReader("15"));
-            input.GetUserNumberInput("test", out int actualResult);
+            int actualResult = input.GetUserNumberInput("test");
             int expectedResult = 15;
             Assert.AreEqual(expectedResult, actualResult);
 
@@ -70,7 +70,7 @@ namespace MatrixTraceTests
         public void PromptTryAgain_Continues()
         {
             Program input = new Program();
-            Console.SetIn(new StringReader("1"));            
+            Console.SetIn(new StringReader("1"));
             bool actualResult = input.PromptTryAgain();
             Assert.IsTrue(actualResult);
         }
